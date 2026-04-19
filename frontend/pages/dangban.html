@@ -1,0 +1,59 @@
+﻿<div class="container">
+    <h1 class="page-title">Đăng bán sản phẩm</h1>
+    <p class="section-subtitle">Chỉ admin và seller mới có quyền đăng bán sản phẩm.</p>
+
+    <div class="section-card section-spaced">
+        <form id="product-form" class="compact-form">
+            <div class="form-grid form-grid-2">
+                <div class="form-group">
+                <label>Tên sản phẩm</label>
+                <input type="text" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label>Giá tiền (VND)</label>
+                    <input type="number" name="price" min="0" required>
+                </div>
+                <div class="form-group full">
+                    <label>Mô tả</label>
+                    <textarea name="description" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Ảnh đại diện sản phẩm</label>
+                    <div class="file-picker">
+                        <input type="file" id="main-image" class="file-input" accept="image/*" required>
+                        <button type="button" class="btn-outline file-btn" data-file-target="main-image" data-file-label="main-image-label">Chọn ảnh</button>
+                        <span id="main-image-label" class="file-label">Chưa chọn file</span>
+                    </div>
+                </div>
+            <div class="form-group">
+                <label>Ảnh demo (nhiều ảnh)</label>
+                <div class="file-picker">
+                    <input type="file" id="demo-media" class="file-input" multiple accept="image/*">
+                    <button type="button" class="btn-outline file-btn" data-file-target="demo-media" data-file-label="demo-media-label">Chọn ảnh</button>
+                    <span id="demo-media-label" class="file-label">Chưa chọn file</span>
+                </div>
+                <small>Ảnh sẽ tự chuyển thành link. Video chỉ nhập link bên dưới.</small>
+            </div>
+            <div class="form-group">
+                <label>Link video demo (tùy chọn)</label>
+                <input type="text" name="video_url" placeholder="https://...">
+            </div>
+            <div class="form-group">
+                <label>Link tải</label>
+                <input type="text" name="download_url" placeholder="https://..." required>
+            </div>
+            <div class="form-group">
+                <label>Link xem demo</label>
+                    <input type="text" name="demo_url" placeholder="https://...">
+                </div>
+                <div class="form-group full">
+                    <label>Danh mục (có thể chọn nhiều)</label>
+                    <select name="category_ids" id="category-select" multiple required></select>
+                    <small>Giữ Ctrl (Windows) hoặc Command (Mac) để chọn nhiều.</small>
+                </div>
+            </div>
+            <button type="submit" class="btn-primary">Đăng sản phẩm</button>
+        </form>
+        <div id="product-upload-previews" class="upload-preview grid"></div>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+<!-- File: frontend/pages/register.html -->
+<div class="auth-page auth-register-page">
+    <div class="auth-container auth-register-layout">
+        <div class="auth-box auth-register-box">
+            <div class="auth-register-heading">
+                <div class="auth-register-kicker">Sang dev shop</div>
+                <h2>Dang ky tai khoan</h2>
+                <p class="auth-register-subtitle">
+                    Nhap thong tin, nhan ma OTP qua email, sau do xac nhan o buoc rieng.
+                </p>
+            </div>
+
+            <div class="auth-step-switcher">
+                <div class="auth-step-pill is-active">
+                    <span class="auth-step-pill-number">1</span>
+                    <span>Thong tin</span>
+                </div>
+                <div class="auth-step-pill">
+                    <span class="auth-step-pill-number">2</span>
+                    <span>Xac nhan OTP</span>
+                </div>
+            </div>
+
+            <form id="register-request-form">
+                <div class="auth-register-form-grid">
+                    <div class="form-group">
+                        <label>Ho ten</label>
+                        <input type="text" name="full_name" required placeholder="Nhap ho ten cua ban">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" required placeholder="you@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Gioi tinh</label>
+                        <select name="gender" required>
+                            <option value="male">Nam</option>
+                            <option value="female">Nu</option>
+                            <option value="other">Khac</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Mat khau</label>
+                        <input type="password" name="password" required minlength="6" placeholder="Toi thieu 6 ky tu">
+                    </div>
+                </div>
+
+                <div class="auth-register-inline-note" id="register-request-note">
+                    Email nay se duoc dung de nhan ma OTP va thong bao lien quan den tai khoan.
+                </div>
+
+                <div class="form-group tos-consent auth-register-tos">
+                    <div class="tos-status" id="tos-status">Ban can doc dieu khoan dich vu truoc khi tiep tuc.</div>
+                    <button type="button" class="link-button" id="tos-open">Doc dieu khoan dich vu</button>
+                </div>
+
+                <div class="form-group">
+                    <div id="register-recaptcha" class="recaptcha-slot is-hidden"></div>
+                </div>
+
+                <div class="auth-actions">
+                    <button type="submit" class="btn-primary" id="send-register-otp">Tiep tuc va gui ma OTP</button>
+                </div>
+            </form>
+
+            <div class="auth-footer">
+                Da co tai khoan? <a href="/login" data-link>Dang nhap</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="tos-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="section-title" id="tos-title">Dieu khoan dich vu</h3>
+            <button class="modal-close" id="tos-close">x</button>
+        </div>
+        <div id="tos-content" class="tos-content"></div>
+        <div class="modal-footer">
+            <button type="button" class="btn-outline" id="tos-confirm">Da doc</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+<!-- File: frontend/pages/register-verify.html -->
+<div class="auth-page auth-register-page">
+    <div class="auth-container auth-register-layout">
+        <div class="auth-box auth-register-box">
+            <div class="auth-register-heading">
+                <div class="auth-register-kicker">Sang dev shop</div>
+                <h2>Xac nhan OTP</h2>
+                <p class="auth-register-subtitle">
+                    Day la buoc rieng chi de nhap ma OTP va hoan tat tao tai khoan.
+                </p>
+            </div>
+
+            <div class="auth-step-switcher">
+                <div class="auth-step-pill">
+                    <span class="auth-step-pill-number">1</span>
+                    <span>Thong tin</span>
+                </div>
+                <div class="auth-step-pill is-active">
+                    <span class="auth-step-pill-number">2</span>
+                    <span>Xac nhan OTP</span>
+                </div>
+            </div>
+
+            <div class="auth-step-copy">
+                Ma xac nhan da duoc gui. Hay nhap dung 6 chu so de hoan tat tao tai khoan.
+            </div>
+
+            <div class="auth-verify-card">
+                <div class="auth-verify-label">Email nhan ma</div>
+                <div class="auth-verify-email" id="register-verify-email">-</div>
+                <div class="register-otp-hint" id="register-otp-hint">
+                    Ma OTP se hien thi o day sau khi ban gui yeu cau.
+                </div>
+            </div>
+
+            <form id="register-verify-form">
+                <div class="form-group">
+                    <label>Ma OTP</label>
+                    <input
+                        type="text"
+                        name="otp_code"
+                        id="register-otp-code"
+                        class="auth-otp-input"
+                        maxlength="6"
+                        inputmode="numeric"
+                        placeholder="Nhap 6 chu so"
+                    >
+                </div>
+
+                <div class="auth-actions">
+                    <button type="submit" class="btn-primary" id="complete-register-btn">Xac nhan va tao tai khoan</button>
+                    <button type="button" class="btn-outline" id="resend-register-otp">Gui lai ma OTP</button>
+                    <button type="button" class="btn-ghost" id="edit-register-info">Sua thong tin dang ky</button>
+                </div>
+            </form>
+
+            <div class="auth-footer">
+                Da co tai khoan? <a href="/login" data-link>Dang nhap</a>
+            </div>
+        </div>
+    </div>
+</div>

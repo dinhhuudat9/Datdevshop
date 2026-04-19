@@ -1,0 +1,71 @@
+﻿<div class="container">
+    <div class="deposit-hero">
+        <div>
+            <h1 class="page-title">Nạp tiền</h1>
+            <p class="section-subtitle">Gửi yêu cầu nạp tiền, admin duyệt mới cộng số dư.</p>
+        </div>
+        <div class="deposit-badges">
+            <span class="badge badge-info">Nhanh chóng</span>
+            <span class="badge badge-success">An toàn</span>
+        </div>
+    </div>
+
+    <div class="deposit-layout">
+        <aside class="deposit-side">
+            <div id="bank-info" class="section-card" style="display: none;">
+                <h3 class="section-title">Thông tin chuyển khoản</h3>
+                <div class="bank-info-grid">
+                    <div class="bank-qr">
+                        <img id="bank-qr-image" src="" alt="QR chuyển khoản">
+                    </div>
+                    <div class="bank-details">
+                        <div class="bank-row"><strong>Ngân hàng:</strong> <span id="bank-name"></span></div>
+                        <div class="bank-row"><strong>Số tài khoản:</strong> <span id="bank-account-number"></span></div>
+                        <div class="bank-row"><strong>Tên tài khoản:</strong> <span id="bank-account-name"></span></div>
+                        <div class="bank-row" id="bank-note-row" style="display:none;"><strong>Nội dung:</strong> <span id="bank-note"></span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="section-card deposit-tip">
+                <h3>Gợi ý</h3>
+                <p>Vui lòng chuyển khoản đúng nội dung để admin duyệt nhanh hơn.</p>
+            </div>
+        </aside>
+
+        <section class="deposit-main">
+            <div class="section-card section-spaced">
+                <h3 class="section-title">Tạo yêu cầu nạp tiền</h3>
+                <form id="deposit-form" class="form-grid form-grid-2">
+                    <div class="form-group">
+                        <label>Số tiền (VND)</label>
+                        <input type="number" name="amount" min="1000" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phương thức thanh toán</label>
+                        <input type="text" name="payment_method" placeholder="Ví dụ: Momo, Bank, ZaloPay">
+                    </div>
+                    <div class="form-group full">
+                        <label>Ảnh / chứng từ</label>
+                        <div class="file-picker">
+                            <input type="file" name="payment_proof" id="payment-proof" class="file-input">
+                            <button type="button" class="btn-outline file-btn" data-file-target="payment-proof" data-file-label="payment-proof-label">Chọn ảnh</button>
+                            <span id="payment-proof-label" class="file-label">Chưa chọn file</span>
+                        </div>
+                        <small>Nếu có, upload ảnh chứng từ (≤ 25MB)</small>
+                    </div>
+                    <div class="form-group full">
+                        <div id="deposit-upload-previews" class="upload-preview"></div>
+                    </div>
+                    <div class="form-group full">
+                        <button type="submit" class="btn-primary">Gửi yêu cầu</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="section-card">
+                <h3 class="section-title">Lịch sử yêu cầu nạp</h3>
+                <div id="deposit-requests"></div>
+            </div>
+        </section>
+    </div>
+</div>

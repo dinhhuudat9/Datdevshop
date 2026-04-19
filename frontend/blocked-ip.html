@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IP dang bi khoa</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --bg-1: #04131f;
+            --bg-2: #081f2f;
+            --panel: rgba(7, 21, 34, 0.86);
+            --panel-strong: rgba(10, 28, 43, 0.96);
+            --ink: #ecf7ff;
+            --muted: #8aa6ba;
+            --line: rgba(130, 190, 255, 0.18);
+            --accent: #ff6b3d;
+            --accent-soft: rgba(255, 107, 61, 0.16);
+            --cyan: #4dd9ff;
+            --cyan-soft: rgba(77, 217, 255, 0.16);
+            --shadow: 0 30px 80px rgba(0, 0, 0, 0.42);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            color: var(--ink);
+            font-family: "Trebuchet MS", "Gill Sans", sans-serif;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(77, 217, 255, 0.18), transparent 28%),
+                radial-gradient(circle at 85% 18%, rgba(255, 107, 61, 0.2), transparent 24%),
+                radial-gradient(circle at 50% 120%, rgba(14, 92, 143, 0.45), transparent 36%),
+                linear-gradient(140deg, var(--bg-1) 0%, var(--bg-2) 52%, #06141f 100%);
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        body::before {
+            background:
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 38px 38px;
+            mask-image: radial-gradient(circle at center, black 38%, transparent 88%);
+            opacity: 0.42;
+        }
+
+        body::after {
+            background:
+                radial-gradient(circle at center, rgba(77, 217, 255, 0.08), transparent 52%);
+        }
+
+        .scene {
+            position: relative;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 32px;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 999px;
+            filter: blur(10px);
+            opacity: 0.55;
+            animation: drift 8s ease-in-out infinite;
+        }
+
+        .orb-a {
+            top: 10%;
+            left: 10%;
+            width: 140px;
+            height: 140px;
+            background: rgba(77, 217, 255, 0.14);
+        }
+
+        .orb-b {
+            right: 8%;
+            bottom: 16%;
+            width: 180px;
+            height: 180px;
+            background: rgba(255, 107, 61, 0.14);
+            animation-delay: -3s;
+        }
+
+        .shell {
+            position: relative;
+            width: min(960px, 100%);
+            border: 1px solid var(--line);
+            border-radius: 30px;
+            overflow: hidden;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)),
+                var(--panel);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(18px);
+        }
+
+        .shell::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(130deg, rgba(255, 255, 255, 0.07), transparent 30%, transparent 68%, rgba(77, 217, 255, 0.08));
+            pointer-events: none;
+        }
+
+        .topbar {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 16px 22px;
+            border-bottom: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            color: #08131d;
+            background: linear-gradient(135deg, #61e5ff, #fff4cf);
+            box-shadow: 0 12px 24px rgba(77, 217, 255, 0.18);
+            font-size: 18px;
+        }
+
+        .status-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 107, 61, 0.3);
+            background: var(--accent-soft);
+            color: #ffd7cb;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 999px;
+            background: var(--accent);
+            box-shadow: 0 0 0 6px rgba(255, 107, 61, 0.12);
+        }
+
+        .content {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 0;
+        }
+
+        .hero {
+            padding: 46px 42px 42px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            background: rgba(77, 217, 255, 0.08);
+            color: #bfeeff;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0 0 18px;
+            max-width: 11ch;
+            font-size: clamp(38px, 6vw, 68px);
+            line-height: 0.95;
+            letter-spacing: -0.04em;
+        }
+
+        .lead {
+            max-width: 590px;
+            margin: 0 0 28px;
+            color: #c7dbe8;
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        .alert-grid {
+            display: grid;
+            gap: 14px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .alert-card {
+            padding: 18px;
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .alert-card strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .alert-card span {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .side {
+            position: relative;
+            padding: 42px 32px;
+            border-left: 1px solid var(--line);
+            background:
+                linear-gradient(180deg, rgba(255, 107, 61, 0.08), rgba(77, 217, 255, 0.06)),
+                var(--panel-strong);
+        }
+
+        .shield {
+            position: relative;
+            width: 138px;
+            height: 138px;
+            margin-bottom: 24px;
+            border-radius: 32px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background:
+                radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.14), transparent 44%),
+                linear-gradient(135deg, rgba(255, 107, 61, 0.2), rgba(77, 217, 255, 0.2));
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 24px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .shield::before {
+            content: "!";
+            width: 82px;
+            height: 82px;
+            display: grid;
+            place-items: center;
+            border-radius: 24px;
+            background: linear-gradient(180deg, #ff7a4f, #ff4d36);
+            color: white;
+            font-size: 52px;
+            font-weight: 900;
+            box-shadow: 0 16px 30px rgba(255, 90, 54, 0.34);
+        }
+
+        .side h2 {
+            margin: 0 0 14px;
+            font-size: 24px;
+            letter-spacing: -0.03em;
+        }
+
+        .side p {
+            margin: 0 0 22px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .meta-box {
+            padding: 18px;
+            border-radius: 22px;
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .meta-label {
+            margin-bottom: 10px;
+            color: #9ec9dc;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .meta-value {
+            color: #ffffff;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 14px;
+            line-height: 1.75;
+        }
+
+        .footer-note {
+            margin-top: 16px;
+            color: #6f8b9e;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        @keyframes drift {
+            0%,
+            100% {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+            50% {
+                transform: translate3d(0, -14px, 0) scale(1.04);
+            }
+        }
+
+        @media (max-width: 860px) {
+            body {
+                overflow: auto;
+            }
+
+            .scene {
+                padding: 18px;
+            }
+
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .side {
+                border-left: 0;
+                border-top: 1px solid var(--line);
+            }
+
+            .hero,
+            .side {
+                padding: 28px 22px;
+            }
+
+            .alert-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                max-width: none;
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+    <script src="/js/config.js"></script>
+</head>
+<body>
+    <div class="scene">
+        <div class="orb orb-a"></div>
+        <div class="orb orb-b"></div>
+
+        <main class="shell">
+            <div class="topbar">
+                <div class="brand">
+                    <div class="brand-mark">S</div>
+                    <span>Sang dev security</span>
+                </div>
+                <div class="status-chip">
+                    <span class="status-dot"></span>
+                    Access revoked
+                </div>
+            </div>
+
+            <div class="content">
+                <section class="hero">
+                    <div class="eyebrow">Security Lock Active</div>
+                    <h1>IP cua ban dang bi khoa.</h1>
+                    <p class="lead">
+                        He thong da phat hien hoat dong vi pham hoac bat thuong tu dia chi nay.
+                        Trong thoi gian bi khoa, IP nay se khong the dang ky, dang nhap hoac tiep tuc truy cap trang.
+                    </p>
+
+                    <div class="alert-grid">
+                        <div class="alert-card">
+                            <strong>Con lai</strong>
+                            <span id="block-countdown">Dang kiem tra...</span>
+                        </div>
+                        <div class="alert-card">
+                            <strong>Mo khoa luc</strong>
+                            <span id="block-until">Dang kiem tra...</span>
+                        </div>
+                    </div>
+                </section>
+
+                <aside class="side">
+                    <div class="shield"></div>
+                    <h2>Truy cap da bi tam dung</h2>
+                    <p>
+                        Neu day la nham lan, vui long dung thu nghiem them tren IP nay va lien he quan tri vien de kiem tra lich su khoa.
+                    </p>
+
+                    <div class="meta-box">
+                        <div class="meta-label">Trang thai</div>
+                        <div class="meta-value" id="block-meta">
+                            ROUTE: BLOCKED<br>
+                            STATUS: CHECKING<br>
+                            IP: ...<br>
+                            REASON: ...
+                        </div>
+                    </div>
+
+                    <div class="footer-note" id="block-note">
+                        He thong dang lay thoi gian khoa hien tai. Khi dem nguoc ve 0, trang se tu dong quay lai trang chu.
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+    <script>
+        (function initBlockedPageStatus() {
+            const countdownEl = document.getElementById('block-countdown');
+            const untilEl = document.getElementById('block-until');
+            const metaEl = document.getElementById('block-meta');
+            const noteEl = document.getElementById('block-note');
+            const buildApiUrl = window.buildApiUrl || ((path = '') => `/api/${String(path || '').replace(/^\/+/, '')}`);
+            const STATUS_ENDPOINT = buildApiUrl('security/block-status');
+            let blockUntilMs = 0;
+            let serverOffsetMs = 0;
+            let countdownTimerId = 0;
+            let refreshTimerId = 0;
+
+            function setText(element, text) {
+                if (element) {
+                    element.textContent = text;
+                }
+            }
+
+            function setHtml(element, html) {
+                if (element) {
+                    element.innerHTML = html;
+                }
+            }
+
+            function pad(value) {
+                return String(Math.max(0, value)).padStart(2, '0');
+            }
+
+            function getServerNow() {
+                return Date.now() + serverOffsetMs;
+            }
+
+            function formatDuration(remainingMs) {
+                const totalSeconds = Math.max(Math.ceil(remainingMs / 1000), 0);
+                const days = Math.floor(totalSeconds / 86400);
+                const hours = Math.floor((totalSeconds % 86400) / 3600);
+                const minutes = Math.floor((totalSeconds % 3600) / 60);
+                const seconds = totalSeconds % 60;
+                const clock = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+                return days > 0 ? `${days} ngay ${clock}` : clock;
+            }
+
+            function formatDateTime(timestamp) {
+                if (!timestamp) {
+                    return 'Khong xac dinh';
+                }
+
+                return new Date(timestamp).toLocaleString('vi-VN');
+            }
+
+            function updateMeta(status) {
+                setHtml(metaEl, [
+                    'ROUTE: BLOCKED',
+                    `STATUS: ${status.active ? 'ACTIVE' : 'UNLOCKED'}`,
+                    `IP: ${status.ip || 'unknown'}`,
+                    `REASON: ${status.reason || 'none'}`
+                ].join('<br>'));
+            }
+
+            function scheduleStatusRefresh(delayMs = 15000) {
+                window.clearTimeout(refreshTimerId);
+                refreshTimerId = window.setTimeout(() => {
+                    void loadStatus();
+                }, delayMs);
+            }
+
+            function redirectHome(delayMs = 1200) {
+                setText(noteEl, 'Het thoi gian khoa. Dang quay lai trang chu...');
+                window.setTimeout(() => {
+                    window.location.replace('/');
+                }, delayMs);
+            }
+
+            function tickCountdown() {
+                if (!blockUntilMs) {
+                    setText(countdownEl, '00:00:00');
+                    return;
+                }
+
+                const remainingMs = Math.max(blockUntilMs - getServerNow(), 0);
+                setText(countdownEl, formatDuration(remainingMs));
+
+                if (remainingMs <= 0) {
+                    window.clearInterval(countdownTimerId);
+                    countdownTimerId = 0;
+                    setText(noteEl, 'Dang kiem tra lai trang thai khoa...');
+                    void loadStatus();
+                }
+            }
+
+            function startCountdown() {
+                if (!countdownTimerId) {
+                    countdownTimerId = window.setInterval(tickCountdown, 1000);
+                }
+
+                tickCountdown();
+            }
+
+            async function loadStatus() {
+                try {
+                    const response = await fetch(STATUS_ENDPOINT, {
+                        credentials: 'include',
+                        cache: 'no-store'
+                    });
+                    const data = await response.json().catch(() => ({}));
+
+                    if (!response.ok || !data.success) {
+                        throw new Error(data.message || 'Khong the lay trang thai khoa IP');
+                    }
+
+                    const status = data.data || {};
+                    serverOffsetMs = Number(status.serverNowMs || Date.now()) - Date.now();
+                    updateMeta(status);
+
+                    if (!status.active || !status.blockUntil) {
+                        blockUntilMs = 0;
+                        setText(countdownEl, '00:00:00');
+                        setText(untilEl, 'Da het khoa');
+                        redirectHome();
+                        return;
+                    }
+
+                    blockUntilMs = Number(status.blockUntil) || 0;
+                    setText(untilEl, formatDateTime(blockUntilMs));
+                    setText(noteEl, status.detail
+                        ? `Chi tiet: ${status.detail}`
+                        : 'Khi dem nguoc ve 0, he thong se tu dong kiem tra lai va mo truy cap neu IP da het khoa.');
+
+                    startCountdown();
+                    scheduleStatusRefresh();
+                } catch (error) {
+                    setText(countdownEl, 'Khong lay duoc du lieu');
+                    setText(untilEl, 'Khong xac dinh');
+                    setText(noteEl, 'Tam thoi chua lay duoc trang thai khoa. He thong se thu lai trong giay lat...');
+                    scheduleStatusRefresh(5000);
+                }
+            }
+
+            void loadStatus();
+        })();
+    </script>
+    <script src="/js/security.js"></script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xac nhan nguoi dung</title>
+    <link rel="icon" type="image/x-icon" href="/img/icon.ico">
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #f4efe7;
+            --ink: #18232f;
+            --muted: #5b6b79;
+            --card: rgba(255, 255, 255, 0.94);
+            --line: rgba(24, 35, 47, 0.08);
+            --accent: #0f766e;
+            --accent-soft: rgba(15, 118, 110, 0.12);
+            --danger: #b91c1c;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(15, 118, 110, 0.12), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(194, 65, 12, 0.12), transparent 24%),
+                linear-gradient(160deg, #f7f3ec, var(--bg));
+        }
+
+        .gate-shell {
+            width: min(100%, 520px);
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 24px 80px rgba(24, 35, 47, 0.12);
+            backdrop-filter: blur(8px);
+        }
+
+        .gate-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 18px 0 10px;
+            font-size: clamp(28px, 5vw, 38px);
+            line-height: 1.08;
+        }
+
+        p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .gate-stack {
+            display: grid;
+            gap: 16px;
+            margin-top: 22px;
+        }
+
+        .gate-panel {
+            padding: 16px;
+            border-radius: 18px;
+            border: 1px solid var(--line);
+            background: rgba(248, 250, 252, 0.8);
+        }
+
+        .gate-panel strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .gate-recaptcha {
+            display: flex;
+            justify-content: center;
+            min-height: 78px;
+        }
+
+        .gate-status {
+            min-height: 24px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .gate-status.is-error {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        .gate-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        button {
+            border: none;
+            border-radius: 14px;
+            padding: 12px 18px;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0f766e, #0284c7);
+            color: #fff;
+            min-width: 180px;
+        }
+
+        .btn-outline {
+            border: 1px solid var(--line);
+            background: #fff;
+            color: var(--ink);
+        }
+
+        button:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .gate-note {
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        @media (max-width: 480px) {
+            .gate-shell {
+                padding: 22px 18px;
+                border-radius: 20px;
+            }
+
+            .gate-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .gate-actions button {
+                width: 100%;
+            }
+
+            .gate-recaptcha .g-recaptcha {
+                transform: scale(0.92);
+                transform-origin: center top;
+            }
+        }
+    </style>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+    <script src="/js/config.js"></script>
+</head>
+<body>
+    <main class="gate-shell">
+        <div class="gate-badge">Human Check</div>
+        <h1>Web dang yeu cau xac nhan nguoi dung truoc khi vao.</h1>
+        <p>Trang nay chi tai mot man hinh nhe de giam tai cho server. Sau khi xac nhan, ban se duoc dua vao website chinh.</p>
+
+        <div class="gate-stack">
+            <section class="gate-panel">
+                <strong>Xac nhan "Toi khong phai robot"</strong>
+                <div id="human-gate-recaptcha" class="gate-recaptcha"></div>
+                <div id="human-gate-status" class="gate-status"></div>
+            </section>
+
+            <div class="gate-actions">
+                <button type="button" id="human-gate-enter" class="btn-primary" disabled>Vao website</button>
+                <button type="button" id="human-gate-retry" class="btn-outline" hidden>Tai lai xac thuc</button>
+            </div>
+        </div>
+
+        <p class="gate-note">Neu hop xac thuc khong hien, thu bam "Tai lai xac thuc".</p>
+    </main>
+
+    <script>
+        (function() {
+            const recaptchaContainer = document.getElementById('human-gate-recaptcha');
+            const statusEl = document.getElementById('human-gate-status');
+            const enterBtn = document.getElementById('human-gate-enter');
+            const retryBtn = document.getElementById('human-gate-retry');
+            const buildApiUrl = window.buildApiUrl || ((path = '') => `/api/${String(path || '').replace(/^\/+/, '')}`);
+            const query = new URLSearchParams(window.location.search);
+            const nextPath = (() => {
+                const requested = query.get('next');
+                if (requested && requested.startsWith('/')) {
+                    return requested;
+                }
+
+                if (window.location.pathname === '/human-check.html') {
+                    return '/';
+                }
+
+                return `${window.location.pathname}${window.location.search}${window.location.hash}`;
+            })();
+
+            let widgetId = null;
+            let config = null;
+            let isSubmitting = false;
+
+            function setStatus(message, type) {
+                statusEl.textContent = message || '';
+                statusEl.classList.toggle('is-error', type === 'error');
+            }
+
+            function syncButtons() {
+                const ready = Boolean(widgetId) && !isSubmitting;
+                enterBtn.disabled = !ready;
+                enterBtn.textContent = isSubmitting ? 'Dang vao...' : 'Vao website';
+            }
+
+            function waitForTurnstile(timeoutMs) {
+                return new Promise((resolve, reject) => {
+                    const startedAt = Date.now();
+                    const timer = setInterval(() => {
+                        if (window.turnstile && typeof window.turnstile.render === 'function') {
+                            clearInterval(timer);
+                            resolve(window.turnstile);
+                            return;
+                        }
+
+                        if (Date.now() - startedAt >= timeoutMs) {
+                            clearInterval(timer);
+                            reject(new Error('Khong tai duoc Turnstile tu Cloudflare.'));
+                        }
+                    }, 100);
+                });
+            }
+
+            async function loadConfig() {
+                const response = await fetch(buildApiUrl('security/human-gate-config'), {
+                    credentials: 'include',
+                    cache: 'no-store'
+                });
+                const payload = await response.json().catch(() => ({}));
+                if (!response.ok || !payload.success) {
+                    throw new Error(payload.message || 'Khong the lay cau hinh xac thuc.');
+                }
+                return payload.data || {};
+            }
+
+            async function renderCaptcha(forceReload) {
+                widgetId = null;
+                recaptchaContainer.innerHTML = '';
+                retryBtn.hidden = true;
+                setStatus('Dang tai hop xac thuc...', '');
+                syncButtons();
+
+                try {
+                    config = await loadConfig();
+                    if (!config.enabled || !config.siteKey) {
+                        throw new Error('Turnstile chua duoc cau hinh tren server.');
+                    }
+
+                    if (forceReload && window.turnstile && typeof window.turnstile.reset === 'function') {
+                        try {
+                            window.turnstile.reset();
+                        } catch (_) {}
+                    }
+
+                    const turnstile = await waitForTurnstile(15000);
+                    widgetId = turnstile.render(recaptchaContainer, {
+                        sitekey: config.siteKey,
+                        size: 'normal',
+                        callback() {
+                            setStatus('Danh dau xong, bam vao website de tiep tuc.', '');
+                        },
+                        'error-callback': () => {
+                            setStatus('Khong the tai Turnstile, thu lai.', 'error');
+                            retryBtn.hidden = false;
+                        },
+                        'expired-callback': () => {
+                            setStatus('Ma xac thuc het han, vui long lam lai.', 'error');
+                        }
+                    });
+                    setStatus('Danh dau "Toi khong phai robot" roi bam vao website.', '');
+                } catch (error) {
+                    widgetId = null;
+                    retryBtn.hidden = false;
+                    setStatus(error.message || 'Khong the tai hop xac thuc.', 'error');
+                }
+
+                syncButtons();
+            }
+
+            async function submitGate() {
+                if (isSubmitting || !widgetId) {
+                    return;
+                }
+
+                const token = window.turnstile && typeof window.turnstile.getResponse === 'function'
+                    ? window.turnstile.getResponse(widgetId)
+                    : '';
+
+                if (!token) {
+                    setStatus('Vui long xac nhan "Toi khong phai robot".', 'error');
+                    return;
+                }
+
+                isSubmitting = true;
+                syncButtons();
+                setStatus('Dang xac minh...', '');
+
+                try {
+                    const response = await fetch(buildApiUrl('security/human-gate-verify'), {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            recaptcha_token: token
+                        })
+                    });
+                    const payload = await response.json().catch(() => ({}));
+                    if (!response.ok || !payload.success) {
+                        throw new Error(payload.message || 'Khong the xac minh nguoi dung.');
+                    }
+
+                    window.location.replace(nextPath);
+                } catch (error) {
+                    isSubmitting = false;
+                    if (window.turnstile && typeof window.turnstile.reset === 'function' && widgetId) {
+                        window.turnstile.reset(widgetId);
+                    }
+                    setStatus(error.message || 'Khong the xac minh nguoi dung.', 'error');
+                    syncButtons();
+                }
+            }
+
+            enterBtn.addEventListener('click', submitGate);
+            retryBtn.addEventListener('click', () => {
+                void renderCaptcha(true);
+            });
+
+            void renderCaptcha(false);
+        })();
+    </script>
+</body>
+</html>

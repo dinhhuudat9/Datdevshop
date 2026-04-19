@@ -1,0 +1,14 @@
+# Minimal config for Cloudflare Workers
+# Fill in `account_id` and adjust `name` if needed before publishing.
+
+name = "shopbanmanguon-worker"
+main = "frontend/worker.js"
+compatibility_date = "2026-03-10"
+workers_dev = true
+
+# Set your Cloudflare account ID (from dash.cloudflare.com -> Workers)
+account_id = "6ad466d9ff49a89a5ec1e4a61a3a05a9"
+
+# Optional: default backend origin. You can override with a secret/var on CF.
+[vars]
+RENDER_ORIGIN = "https://sangdev.onrender.com"

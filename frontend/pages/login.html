@@ -1,0 +1,47 @@
+﻿<div class="auth-page">
+    <div class="auth-container">
+        <div class="auth-box">
+            <h2>Đăng nhập</h2>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required placeholder="your@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>Mật khẩu</label>
+                    <input type="password" name="password" required placeholder="••••••••">
+                </div>
+
+                <div class="form-group tos-consent">
+                    <div class="tos-status" id="tos-status">Bạn cần đọc điều khoản dịch vụ trước khi tiếp tục.</div>
+                    <button type="button" class="link-button" id="tos-open">Đọc điều khoản dịch vụ</button>
+                </div>
+
+                <div class="form-group">
+                    <div id="login-recaptcha" class="recaptcha-slot is-hidden"></div>
+                </div>
+                
+                <button type="submit" class="btn-primary">Đăng nhập</button>
+            </form>
+            
+            <div class="auth-footer">
+                Chưa có tài khoản? <a href="/register" data-link>Đăng ký ngay</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="tos-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="section-title" id="tos-title">Điều khoản dịch vụ</h3>
+            <button class="modal-close" id="tos-close">×</button>
+        </div>
+        <div id="tos-content" class="tos-content"></div>
+        <div class="modal-footer">
+            <button type="button" class="btn-outline" id="tos-confirm">Đã đọc</button>
+        </div>
+    </div>
+</div>

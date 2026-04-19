@@ -1,0 +1,31 @@
+﻿<div class="container">
+    <h1 class="page-title">Đăng bài</h1>
+    <div class="section-card section-spaced">
+        <form id="post-form">
+            <div class="form-group">
+                <label>Nội dung</label>
+                <textarea name="content" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Ảnh</label>
+                <div class="file-picker">
+                    <input type="file" id="post-media" class="file-input" multiple accept="image/*">
+                    <button type="button" class="btn-outline file-btn" data-file-target="post-media" data-file-label="post-media-label">Chọn ảnh</button>
+                    <span id="post-media-label" class="file-label">Chưa chọn file</span>
+                </div>
+                <small>Tối đa 25MB mỗi ảnh (hoặc nhập link bên dưới)</small>
+            </div>
+            <div class="form-group">
+                <label>Link ảnh / video (tùy chọn)</label>
+                <input type="text" name="media_url" placeholder="https://...">
+            </div>
+            <button type="submit" class="btn-primary">Đăng bài</button>
+        </form>
+        <div id="post-upload-previews" class="upload-preview grid"></div>
+    </div>
+
+    <div class="section-card">
+        <h3 class="section-title">Bài đăng gần đây</h3>
+        <div id="post-list"></div>
+    </div>
+</div>

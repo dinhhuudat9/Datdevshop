@@ -1,0 +1,61 @@
+﻿<div class="container">
+    <h1 class="page-title">Sua san pham</h1>
+    <p class="section-subtitle">Cap nhat thong tin san pham cua ban.</p>
+
+    <div class="section-card section-spaced">
+        <form id="edit-product-form" class="compact-form">
+            <div class="form-grid form-grid-2">
+                <div class="form-group">
+                    <label>Ten san pham</label>
+                    <input type="text" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label>Gia tien (VND)</label>
+                    <input type="number" name="price" min="0" required>
+                </div>
+                <div class="form-group full">
+                    <label>Mo ta ngan</label>
+                    <textarea name="description" rows="3"></textarea>
+                </div>
+                <div class="form-group full">
+                    <label>Noi dung chi tiet</label>
+                    <textarea name="content" rows="6"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Danh muc</label>
+                    <select name="category_id" id="edit-category" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Link tai</label>
+                    <input type="text" name="download_url" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>Link xem demo</label>
+                    <input type="text" name="demo_url" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>Link video demo</label>
+                    <input type="text" name="video_url" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>Thay anh dai dien (tuy chon)</label>
+                    <div class="file-picker">
+                        <input type="file" id="edit-main-image" class="file-input" accept="image/*">
+                        <button type="button" class="btn-outline file-btn" data-file-target="edit-main-image" data-file-label="edit-main-image-label">Chọn ảnh</button>
+                        <span id="edit-main-image-label" class="file-label">Chưa chọn file</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Thay anh demo (tuy chon)</label>
+                    <div class="file-picker">
+                        <input type="file" id="edit-demo-media" class="file-input" multiple accept="image/*">
+                        <button type="button" class="btn-outline file-btn" data-file-target="edit-demo-media" data-file-label="edit-demo-media-label">Chọn ảnh</button>
+                        <span id="edit-demo-media-label" class="file-label">Chưa chọn file</span>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn-primary">Luu thay doi</button>
+        </form>
+        <div id="edit-upload-previews" class="upload-preview grid"></div>
+    </div>
+</div>

@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TienDev Notification</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700;800&family=Nunito:wght@600;700;800&display=swap');
+        @import url('https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-rounded/css/uicons-solid-rounded.css');
+        @import url('https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css');
+        @import url('https://cdn-uicons.flaticon.com/2.1.0/uicons-brands/css/uicons-brands.css');
+
+        :root {
+            --bg-start: #eff6ff;
+            --bg-end: #f8fafc;
+            --card-bg: #ffffff;
+            --card-border: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #475569;
+            --text-soft: #94a3b8;
+            --accent: #4f46e5;
+            --accent-soft: rgba(79, 70, 229, 0.1);
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --success: #10b981;
+            --shadow-lg: 0 20px 50px rgba(15, 23, 42, 0.12);
+            --shadow-sm: 0 6px 18px rgba(15, 23, 42, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Quicksand', sans-serif;
+            color: var(--text-main);
+            background:
+                radial-gradient(circle at top left, rgba(79, 70, 229, 0.12), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.12), transparent 25%),
+                linear-gradient(135deg, var(--bg-start), var(--bg-end));
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .page-shell {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .khung-thong-bao-tong {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .the-thong-bao-cao-cap {
+            position: relative;
+            width: min(1100px, 100%);
+            display: flex;
+            overflow: hidden;
+            border-radius: 28px;
+            background:
+                radial-gradient(circle at top left, rgba(238, 242, 255, 0.95), transparent 35%),
+                radial-gradient(circle at bottom right, rgba(240, 253, 244, 0.85), transparent 35%),
+                var(--card-bg);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .bo-cuc-hai-cot {
+            display: flex;
+            width: 100%;
+            gap: 40px;
+            padding: 42px;
+        }
+
+        .cot-ben-trai {
+            flex: 1.1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cot-ben-phai {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #f1f5f9;
+            border-radius: 22px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nut-nhac {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border: none;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--accent);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+            transition: all 0.2s ease;
+        }
+
+        .nut-nhac:hover {
+            transform: translateY(-2px);
+            background: #ffffff;
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
+        }
+
+        .nut-nhac.dang-phat {
+            background: var(--accent);
+            color: #ffffff;
+        }
+
+        .ghi-chu-nhac {
+            margin-top: 16px;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--text-soft);
+        }
+
+        .ghi-chu-nhac.san-sang {
+            color: var(--success);
+        }
+
+        .tieu-de-chao-mung {
+            margin-bottom: 25px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 32px;
+            line-height: 1.28;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+        }
+
+        .tieu-de-chao-mung span {
+            color: var(--accent);
+        }
+
+        .danh-sach-gioi-thieu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .dong-gioi-thieu,
+        .dong-lien-ket {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .dong-gioi-thieu {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .dong-gioi-thieu i,
+        .dong-lien-ket i {
+            margin-top: 1px;
+            font-size: 18px;
+            flex: 0 0 auto;
+        }
+
+        .mau-vang {
+            color: var(--warning);
+        }
+
+        .mau-xanh-duong {
+            color: var(--info);
+        }
+
+        .mau-xanh-la {
+            color: var(--success);
+        }
+
+        .khoi-lien-he-admin {
+            margin-bottom: 25px;
+            padding: 25px;
+            border: 1px dashed #cbd5e1;
+            border-radius: 18px;
+            background: #f8fafc;
+        }
+
+        .tieu-de-lien-he {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            font-weight: 800;
+            color: #334155;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .tieu-de-lien-he i {
+            color: var(--accent);
+        }
+
+        .danh-sach-mang-xa-hoi {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .nut-mang-xa-hoi {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            text-decoration: none;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: #ffffff;
+            border: 1px solid #f1f5f9;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+            transition: all 0.2s ease;
+        }
+
+        .nut-mang-xa-hoi:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+        }
+
+        .icon-tiktok {
+            color: #000000;
+        }
+
+        .icon-facebook {
+            color: #1877f2;
+        }
+
+        .icon-youtube {
+            color: #ff0000;
+        }
+
+        .icon-zalo {
+            color: #0088ff;
+        }
+
+        .khoi-tao-qr {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chu-tao-qr,
+        .chu-lien-ket {
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .chu-tao-qr {
+            font-size: 14px;
+        }
+
+        .chu-lien-ket {
+            font-size: 14.5px;
+            line-height: 1.55;
+        }
+
+        .nut-tao-qr,
+        .chu-lien-ket a {
+            text-decoration: none;
+        }
+
+        .nut-tao-qr {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--accent);
+            background: var(--accent-soft);
+            border-radius: 999px;
+            transition: all 0.2s ease;
+        }
+
+        .nut-tao-qr:hover {
+            background: rgba(79, 70, 229, 0.16);
+            transform: scale(1.03);
+        }
+
+        .chu-lien-ket a {
+            position: relative;
+            padding-bottom: 2px;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        .chu-lien-ket a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .chu-lien-ket a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .duong-phan-cach {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+            color: var(--text-soft);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .duong-phan-cach::before,
+        .duong-phan-cach::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1.5px dashed #cbd5e1;
+        }
+
+        .nhom-lien-ket-vip {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .lien-ket-trai-tim {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            color: #ef4444;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .lien-ket-trai-tim:hover {
+            transform: scale(1.04);
+            text-shadow: 0 4px 12px rgba(239, 68, 68, 0.22);
+        }
+
+        .trai-tim-nhip-dap {
+            animation: nhip-dap 1.5s ease-in-out infinite;
+        }
+
+        .khu-vuc-qr {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .anh-qr-trai-tim {
+            width: 140px;
+            height: 140px;
+            cursor: pointer;
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5c0-3.08 2.42-5.5 5.5-5.5 1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3c3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>');
+            -webkit-mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5c0-3.08 2.42-5.5 5.5-5.5 1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3c3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>');
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+        }
+
+        .anh-qr-trai-tim:hover {
+            transform: scale(1.08) rotate(3deg);
+        }
+
+        .anh-qr-trai-tim img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.2);
+        }
+
+        .do-bong-qr {
+            position: absolute;
+            bottom: 4px;
+            width: 120px;
+            height: 120px;
+            background: rgba(239, 68, 68, 0.38);
+            border-radius: 50%;
+            filter: blur(20px);
+            z-index: -1;
+        }
+
+        @keyframes nhip-dap {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.18);
+            }
+        }
+
+        @media screen and (max-width: 900px) {
+            .page-shell {
+                padding: 16px;
+            }
+
+            .bo-cuc-hai-cot {
+                flex-direction: column;
+                gap: 25px;
+                padding: 32px 24px;
+            }
+
+            .cot-ben-trai {
+                text-align: center;
+            }
+
+            .tieu-de-chao-mung {
+                font-size: 26px;
+            }
+
+            .dong-gioi-thieu,
+            .tieu-de-lien-he,
+            .khoi-tao-qr {
+                justify-content: center;
+            }
+
+            .danh-sach-mang-xa-hoi {
+                justify-content: center;
+            }
+        }
+
+        @media screen and (max-width: 560px) {
+            .bo-cuc-hai-cot {
+                padding: 28px 16px 20px;
+            }
+
+            .cot-ben-phai,
+            .khoi-lien-he-admin {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            .tieu-de-chao-mung {
+                font-size: 22px;
+            }
+
+            .lien-ket-trai-tim {
+                font-size: 14px;
+            }
+
+            .anh-qr-trai-tim {
+                width: 120px;
+                height: 120px;
+            }
+
+            .nut-nhac {
+                top: 12px;
+                right: 12px;
+                padding: 9px 12px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="page-shell">
+        <section class="khung-thong-bao-tong" aria-label="Thông báo dịch vụ">
+            <div class="the-thong-bao-cao-cap">
+                <audio id="nhac-nen" loop preload="auto" playsinline>
+                    <source src="https://image2url.com/r2/default/audio/1772336193266-47db083a-935f-4adb-81ff-46ec7857ec56.mp3" type="audio/mpeg">
+                </audio>
+
+                <button id="nut-nhac" class="nut-nhac" type="button" aria-label="Bật hoặc tắt nhạc" aria-pressed="false">
+                    <i id="icon-nhac" class="fi fi-sr-volume"></i>
+                    <span id="text-nhac"></span>
+                </button>
+
+                <div class="bo-cuc-hai-cot">
+                    <div class="cot-ben-trai">
+                        <h2 class="tieu-de-chao-mung">Chào mừng bạn đến với,<br><span>Dịch vụ của chúng tôi</span></h2>
+
+                        <div class="danh-sach-gioi-thieu">
+                            <div class="dong-gioi-thieu">
+                                <i class="fi fi-sr-star mau-vang"></i>
+                                <span>Khu vực bán code và mã nguồn chất lượng dành cho anh em.</span>
+                            </div>
+                            <div class="dong-gioi-thieu">
+                                <i class="fi fi-sr-box mau-xanh-duong"></i>
+                                <span>Nhiều loại code và tool hữu ích để trải nghiệm thực tế.</span>
+                            </div>
+                            <div class="dong-gioi-thieu">
+                                <i class="fi fi-sr-check-circle mau-xanh-la"></i>
+                                <span>Code được cập nhật thường xuyên để anh em lấy và dùng nhanh.</span>
+                            </div>
+                        </div>
+
+                        <div class="khoi-lien-he-admin">
+                            <div class="tieu-de-lien-he">
+                                <i class="fi fi-sr-headset"></i> Liên hệ với admin
+                            </div>
+                            <div class="danh-sach-mang-xa-hoi">
+                                <a href="https://www.tiktok.com/@sangnguyendev" target="_blank" rel="noopener noreferrer" class="nut-mang-xa-hoi">
+                                    <i class="fi fi-brands-tik-tok icon-tiktok"></i> TikTok
+                                </a>
+                                <a href="https://www.facebook.com/sang.nguyen.812049" target="_blank" rel="noopener noreferrer" class="nut-mang-xa-hoi">
+                                    <i class="fi fi-brands-facebook icon-facebook"></i> Facebook
+                                </a>
+                                <a href="https://www.youtube.com/@sangdevshop" target="_blank" rel="noopener noreferrer" class="nut-mang-xa-hoi">
+                                    <i class="fi fi-brands-youtube icon-youtube"></i> YouTube
+                                </a>
+                                <a href="https://zalo.me/0335764804" target="_blank" rel="noopener noreferrer" class="nut-mang-xa-hoi">
+                                    <i class="fi fi-sr-messages icon-zalo"></i> Zalo
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="khoi-tao-qr">
+                            <span class="chu-tao-qr">Tạo mã QR free:</span>
+                            <a href="https://tiendev-v1-0.vercel.app/" target="_blank" rel="noopener noreferrer" class="nut-tao-qr">
+                                Tạo mã ở đây <i class="fi fi-br-expand"></i>
+                            </a>
+                        </div>
+                        <p id="ghi-chu-nhac" class="ghi-chu-nhac">Trình duyệt có thể chặn tự phát. Nếu chưa có tiếng, chạm một lần để bật nhạc.</p>
+                    </div>
+
+                    <div class="cot-ben-phai">
+                        <div class="dong-lien-ket">
+                            <i class="fi fi-sr-gem mau-vang"></i>
+                            <span class="chu-lien-ket">Kiếm tiền bằng cách vượt link đăng ký tại đây: <a href="#">Link rút gọn VIP</a></span>
+                        </div>
+
+                        <div class="duong-phan-cach">Cập nhật kèo free</div>
+
+                        <div class="dong-lien-ket">
+                            <i class="fi fi-sr-comment-alt mau-xanh-duong"></i>
+                            <span class="chu-lien-ket">Link nhóm chat: <a href="https://welcome-to-sangdev.vercel.app/index1.html" target="_blank" rel="noopener noreferrer">Nhóm chat</a></span>
+                        </div>
+
+                        <div class="dong-lien-ket">
+                            <i class="fi fi-sr-users mau-xanh-duong"></i>
+                            <span class="chu-lien-ket">Link tham gia nhóm Zalo: <a href="https://welcome-to-sangdev.vercel.app/index1.html" target="_blank" rel="noopener noreferrer">Cộng đồng share code</a></span>
+                        </div>
+
+                        <div class="duong-phan-cach">Tiện ích và giải trí</div>
+
+                        <div class="nhom-lien-ket-vip">
+                            <a href="https://yeu-hoang-trang-so-1.vercel.app/" target="_blank" rel="noopener noreferrer" class="lien-ket-trai-tim">
+                                <i class="fi fi-sr-heart trai-tim-nhip-dap"></i> Tình yêu anh dành riêng cho em <i class="fi fi-sr-heart trai-tim-nhip-dap"></i>
+                            </a>
+                            <a href="https://nhungngaybenhem.onrender.com/in1.html" target="_blank" rel="noopener noreferrer" class="lien-ket-trai-tim">
+                                <i class="fi fi-sr-heart trai-tim-nhip-dap"></i> Thời gian ta cạnh nhau <i class="fi fi-sr-heart trai-tim-nhip-dap"></i>
+                            </a>
+                        </div>
+
+                        <div class="khu-vuc-qr">
+                            <div class="do-bong-qr"></div>
+                            <a class="anh-qr-trai-tim" href="https://sf-static.upanhlaylink.com/img/image_202603065e2493c8e7a8e58618e7e3c77a098e33.jpg" target="_blank" rel="noopener noreferrer" title="Mở ảnh QR">
+                                <img src="https://sf-static.upanhlaylink.com/img/image_202603065e2493c8e7a8e58618e7e3c77a098e33.jpg" alt="Mã QR liên hệ">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script>
+        const nhacNen = document.getElementById('nhac-nen');
+        const nutNhac = document.getElementById('nut-nhac');
+        const iconNhac = document.getElementById('icon-nhac');
+        const textNhac = document.getElementById('text-nhac');
+        const ghiChuNhac = document.getElementById('ghi-chu-nhac');
+        const suKienKhoiDong = ['pointerdown', 'touchstart', 'keydown'];
+
+        function capNhatTrangThaiNhac(dangPhat, biChan = false) {
+            nutNhac.classList.toggle('dang-phat', dangPhat);
+            iconNhac.className = dangPhat ? 'fi fi-sr-volume' : 'fi fi-sr-volume-slash';
+            textNhac.textContent = dangPhat ? '' : '';
+            ghiChuNhac.classList.toggle('san-sang', dangPhat);
+
+            if (dangPhat) {
+                ghiChuNhac.textContent = 'Nhạc đang phát nền.';
+                return;
+            }
+
+            ghiChuNhac.textContent = biChan
+                ? 'Trình duyệt đang chặn tự phát. Chạm một lần để bật nhạc.'
+                : 'Nhạc đang tắt.';
+        }
+
+        function goBoSuKienKhoiDong() {
+            suKienKhoiDong.forEach((tenSuKien) => {
+                document.removeEventListener(tenSuKien, batNhacTuongTacDau, true);
+            });
+        }
+
+        async function thuTuDongPhatNhac() {
+            try {
+                await nhacNen.play();
+                capNhatTrangThaiNhac(true);
+                goBoSuKienKhoiDong();
+                return true;
+            } catch (error) {
+                capNhatTrangThaiNhac(false, true);
+                return false;
+            }
+        }
+
+        function batNhacTuongTacDau() {
+            if (!nhacNen.paused) {
+                goBoSuKienKhoiDong();
+                return;
+            }
+
+            nhacNen.play().then(() => {
+                capNhatTrangThaiNhac(true);
+                goBoSuKienKhoiDong();
+            }).catch(() => {
+                capNhatTrangThaiNhac(false, true);
+            });
+        }
+
+        function chuyenTrangThaiNhac() {
+            if (nhacNen.paused) {
+                batNhacTuongTacDau();
+                return;
+            }
+
+            nhacNen.pause();
+            capNhatTrangThaiNhac(false);
+        }
+
+        nutNhac.addEventListener('click', chuyenTrangThaiNhac);
+        suKienKhoiDong.forEach((tenSuKien) => {
+            document.addEventListener(tenSuKien, batNhacTuongTacDau, true);
+        });
+
+        window.addEventListener('load', () => {
+            nhacNen.volume = 1;
+            capNhatTrangThaiNhac(false);
+            setTimeout(() => {
+                thuTuDongPhatNhac();
+            }, 150);
+        });
+    </script>
+    <script>
+        (() => {
+            const audioCu = document.getElementById('nhac-nen');
+            const nutCu = document.getElementById('nut-nhac');
+            const ghiChuCu = document.getElementById('ghi-chu-nhac');
+            const suKienKhoiDong = ['pointerdown', 'touchstart', 'keydown'];
+
+            if (!audioCu || !nutCu || !ghiChuCu) {
+                return;
+            }
+
+            if (typeof batNhacTuongTacDau === 'function') {
+                suKienKhoiDong.forEach((tenSuKien) => {
+                    document.removeEventListener(tenSuKien, batNhacTuongTacDau, true);
+                });
+            }
+
+            if (typeof chuyenTrangThaiNhac === 'function') {
+                nutCu.removeEventListener('click', chuyenTrangThaiNhac);
+            }
+
+            const nhacNen = audioCu.cloneNode(true);
+            const nutNhac = nutCu.cloneNode(true);
+            const ghiChuNhac = ghiChuCu.cloneNode(true);
+
+            audioCu.pause();
+            audioCu.muted = true;
+            audioCu.removeAttribute('src');
+            audioCu.querySelectorAll('source').forEach((nguon) => {
+                nguon.removeAttribute('src');
+            });
+            audioCu.load();
+
+            audioCu.replaceWith(nhacNen);
+            nutCu.replaceWith(nutNhac);
+            ghiChuCu.replaceWith(ghiChuNhac);
+
+            const iconNhac = document.getElementById('icon-nhac');
+            const textNhac = document.getElementById('text-nhac');
+
+            if (!iconNhac || !textNhac) {
+                return;
+            }
+
+            function capNhatTrangThaiNhac(dangPhat, thongBao = '') {
+                nutNhac.classList.toggle('dang-phat', dangPhat);
+                nutNhac.setAttribute('aria-pressed', String(dangPhat));
+                iconNhac.className = dangPhat ? 'fi fi-sr-volume' : 'fi fi-sr-volume-slash';
+                textNhac.textContent = dangPhat ? '' : '';
+                ghiChuNhac.classList.toggle('san-sang', dangPhat);
+
+                if (thongBao) {
+                    ghiChuNhac.textContent = thongBao;
+                    return;
+                }
+
+                ghiChuNhac.textContent = dangPhat
+                    ? 'Nhạc đang phát nền.'
+                    : 'Nhạc đang tắt.';
+            }
+
+            function goBoSuKienKhoiDong() {
+                suKienKhoiDong.forEach((tenSuKien) => {
+                    document.removeEventListener(tenSuKien, batNhacTuongTacDauMoi, true);
+                });
+            }
+
+            async function phatNhac(laTuDong = false) {
+                try {
+                    await nhacNen.play();
+                    capNhatTrangThaiNhac(true);
+                    goBoSuKienKhoiDong();
+                    return true;
+                } catch (error) {
+                    capNhatTrangThaiNhac(
+                        false,
+                        laTuDong
+                            ? 'Trình duyệt có thể đang chặn tự phát. Chạm nút để bật nhạc.'
+                            : 'Không thể phát nhạc. Hãy kiểm tra lại file âm thanh.'
+                    );
+                    return false;
+                }
+            }
+
+            function batNhacTuongTacDauMoi() {
+                if (!nhacNen.paused) {
+                    goBoSuKienKhoiDong();
+                    return;
+                }
+
+                phatNhac();
+            }
+
+            async function chuyenTrangThaiNhacMoi(event) {
+                event.preventDefault();
+
+                if (nhacNen.paused) {
+                    await phatNhac();
+                    return;
+                }
+
+                nhacNen.pause();
+                capNhatTrangThaiNhac(false);
+            }
+
+            nutNhac.addEventListener('click', chuyenTrangThaiNhacMoi);
+            nhacNen.addEventListener('play', () => capNhatTrangThaiNhac(true));
+            nhacNen.addEventListener('pause', () => {
+                if (nhacNen.currentTime > 0 && !nhacNen.ended) {
+                    capNhatTrangThaiNhac(false);
+                }
+            });
+            nhacNen.addEventListener('error', () => {
+                capNhatTrangThaiNhac(false, 'Không tải được file nhạc. Hãy kiểm tra lại đường dẫn.');
+            });
+
+            suKienKhoiDong.forEach((tenSuKien) => {
+                document.addEventListener(tenSuKien, batNhacTuongTacDauMoi, true);
+            });
+
+            nhacNen.volume = 1;
+            capNhatTrangThaiNhac(false);
+            window.setTimeout(() => {
+                phatNhac(true);
+            }, 150);
+        })();
+    </script>
+</body>
+</html>
+

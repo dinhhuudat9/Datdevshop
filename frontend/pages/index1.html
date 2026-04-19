@@ -1,0 +1,69 @@
+﻿<div class="home-page">
+    <div class="container">
+        <div id="home-banner-shell" class="home-banner-shell">
+            <button id="home-banner-toggle" class="home-banner-toggle" type="button" aria-expanded="true" aria-label="Đóng banner" title="Đóng banner">
+                <i id="home-banner-toggle-icon" class="fas fa-xmark"></i>
+            </button>
+            <div id="home-content-version-slot" class="home-content-version-slot">
+                <section class="hero">
+                    <div>
+                        <h1 id="hero-title">Dịch vụ lập trình Sang dev</h1>
+                        <p id="hero-subtitle">Mua bán source code rõ ràng, minh bạch,quy trình thanh toán an toàn.</p>
+                        <div class="hero-actions">
+                            <a href="/dangban" id="hero-btn-primary" data-link class="btn-primary">Đăng bán ngay</a>
+                            <a href="/naptien" id="hero-btn-secondary" data-link class="btn-outline">Nạp tiền</a>
+                        </div>
+                    </div>
+                    <div class="hero-card">
+                        <h3 class="section-title" id="hero-card-title">Vì sao chọn Sang dev shop?</h3>
+                        <p class="section-subtitle" id="hero-card-subtitle">Hệ thống phân loại rõ ràng, trình duyệt nhanh, giao dịch minh bạch.</p>
+                        <div class="badge-row section-spaced" id="hero-badges">
+                            <div class="badge badge-info">Bảo mật tài khoản</div>
+                            <div class="badge badge-success">Thanh toán linh hoạt</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="categories-section">
+            <h2>Danh mục sản phẩm</h2>
+            <div id="categories-list" class="categories-grid">
+                <!-- Categories sẽ được load bằng JS -->
+            </div>
+        </div>
+
+        <!-- Users -->
+        <div id="users-section" class="users-section" style="display: none;">
+            <div class="section-header">
+                <h2>Tài khoản phù hợp</h2>
+            </div>
+            <div id="users-grid" class="users-grid"></div>
+        </div>
+
+        <!-- Products -->
+        <div class="products-section">
+            <div class="section-header">
+                <h2>Sản phẩm mới nhất</h2>
+                <div class="filter-controls">
+                    <select id="sort-select">
+                        <option value="newest">Mới nhất</option>
+                        <option value="popular">Phổ biến</option>
+                        <option value="price_asc">Giá tăng dần</option>
+                        <option value="price_desc">Giá giảm dần</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="products-grid" class="products-grid">
+                <!-- Products sẽ được load bằng JS -->
+            </div>
+
+            <!-- Pagination -->
+            <div id="pagination" class="pagination">
+                <!-- Pagination sẽ được load bằng JS -->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+﻿<div class="container">
+    <div class="community-header">
+        <div class="community-header-left">
+            <div class="community-avatar-circle">C</div>
+            <div>
+                <div class="community-title">Cộng đồng Sang dev</div>
+                <div class="community-subtitle">Phòng chat chung</div>
+            </div>
+        </div>
+        <div class="community-header-right">
+            <span class="community-status">Đang hoạt động</span>
+        </div>
+    </div>
+
+    <div class="section-card community-card">
+        <div id="community-messages" class="community-messages"></div>
+        <form id="community-form" class="community-form">
+            <textarea name="content" rows="2" placeholder="Nhập tin nhắn hoặc dán link ảnh..."></textarea>
+            <div class="file-picker">
+                <input type="file" id="community-media" class="file-input" accept="image/*">
+                <button type="button" class="btn-outline file-btn" data-file-target="community-media" data-file-label="community-media-label">Chọn ảnh</button>
+                <span id="community-media-label" class="file-label">Chưa chọn file</span>
+            </div>
+            <button type="submit" class="btn-primary">Gửi</button>
+            <div class="chat-human-check">
+                <div id="community-message-recaptcha" class="recaptcha-slot is-hidden"></div>
+                <p id="community-message-recaptcha-status" class="captcha-gate-status"></p>
+                <button type="button" id="community-message-recaptcha-retry" class="btn-outline" hidden>Tải lại xác thực</button>
+            </div>
+        </form>
+        <div id="community-preview" class="upload-preview"></div>
+        <small class="section-subtitle">Bạn cần đăng nhập để gửi tin nhắn. Tin nhắn tự xóa sau 7 ngày.</small>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<button
+    id="account-side-menu-toggle"
+    class="side-menu-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="account-side-menu"
+>
+    <i class="fas fa-bars"></i>
+    <span>Menu</span>
+</button>
+<div id="account-side-menu-overlay" class="account-side-menu-overlay"></div>
+<aside id="account-side-menu" class="account-side-menu" aria-hidden="true">
+    <div class="account-side-menu-head">
+        <div class="account-side-menu-brand">
+            <a href="/" data-link class="account-side-menu-brand-link" aria-label="Sang dev">
+                <i class="fas fa-code"></i>
+                <span>Sang dev</span>
+            </a>
+        </div>
+        <button id="account-side-menu-close" class="account-side-menu-close" type="button" aria-label="Đóng menu">
+            <i class="fas fa-xmark"></i>
+        </button>
+    </div>
+    <div class="account-side-menu-body">
+        <div id="account-side-menu-sections"></div>
+    </div>
+    <div class="account-side-menu-footer">
+        <button id="account-side-menu-logout" class="account-side-menu-logout" type="button">
+            Đăng xuất
+        </button>
+    </div>
+</aside>
