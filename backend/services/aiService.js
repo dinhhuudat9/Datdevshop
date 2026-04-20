@@ -7,7 +7,7 @@ const fetch = require('node-fetch');
 const db = require('../config/database');
 
 const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
-const DEFAULT_AI_NAME = 'Tro ly AI SangDev';
+const DEFAULT_AI_NAME = 'Tro ly AI Dat Dev';
 const DEFAULT_AI_PERSONALITY = 'Than thien, ro rang, uu tien tra loi ngan gon va de hieu.';
 const DEFAULT_AI_KNOWLEDGE = 'San giao dich ma nguon, mua ban source code, nap tien, tai xuong, demo san pham, ho tro nguoi dung.';
 const DEFAULT_AI_SYSTEM_PROMPT = '';
@@ -82,7 +82,7 @@ function buildPersonaPrompt(config = {}) {
     const customPrompt = config.systemPrompt ? `\nHuong dan bo sung tu admin:\n${config.systemPrompt}` : '';
 
     return `
-Ban la ${name} cua website SangDev Shop.
+Ban la ${name} cua website Dat Dev Shop.
 Tinh cach: ${personality}
 Pham vi kien thuc uu tien: ${knowledge}
 ${customPrompt}
@@ -132,7 +132,7 @@ async function askProductAssistant(product = {}, question = '') {
     const prompt = `
 ${personaPrompt}
 
-Ban la tro ly ban hang cho website SangDev Shop.
+Ban la tro ly ban hang cho website Dat Dev Shop.
 Tra ve DUY NHAT JSON hop le, khong them giai thich ngoai JSON.
 
 Yeu cau:
@@ -187,7 +187,7 @@ async function askQuickAssistant(question = '') {
     const prompt = `
 ${personaPrompt}
 
-Ban la tro ly AI cho website SangDev Shop.
+Ban la tro ly AI cho website Dat Dev Shop.
 Tra loi bang tieng Viet, ngan gon, de hieu, toi da 5 cau.
 Neu cau hoi ve website, tap trung vao:
 - mua ban source code
