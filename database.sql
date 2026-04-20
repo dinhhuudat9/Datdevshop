@@ -1,4 +1,4 @@
-﻿-- ============================================
+-- ============================================
 -- SOURCE MARKET DATABASE SCHEMA (SQLite / Turso)
 -- ============================================
 
@@ -412,22 +412,22 @@ INSERT INTO system_settings (setting_key, setting_value, description) VALUES
 ('total_revenue', '0', 'Tổng doanh thu hệ thống'),
 ('max_file_size', '26214400', 'Kích thước file tối đa (25MB)'),
 ('commission_rate', '10', 'Phần trăm hoa hồng (%)'),
-('hero_title', 'Dịch vụ lập trình Sang dev', 'Tiêu đề hero trang chủ'),
+('hero_title', 'Dịch vụ lập trình Dat Dev', 'Tiêu đề hero trang chủ'),
 ('hero_subtitle', 'Mua bán source code rõ ràng, minh bạch, quy trình thanh toán an toàn.', 'Mô tả hero trang chủ'),
 ('hero_btn_primary_text', 'Đăng bán ngay', 'Text nút chính hero'),
 ('hero_btn_primary_link', '/dangban', 'Link nút chính hero'),
 ('hero_btn_secondary_text', 'Nạp tiền', 'Text nút phụ hero'),
 ('hero_btn_secondary_link', '/naptien', 'Link nút phụ hero'),
-('hero_card_title', 'Vì sao chọn Sang dev shop?', 'Tiêu đề khối hero bên phải'),
+('hero_card_title', 'Vì sao chọn Dat Dev shop?', 'Tiêu đề khối hero bên phải'),
 ('hero_card_subtitle', 'Hệ thống phân loại rõ ràng, trình duyệt nhanh, giao dịch minh bạch.', 'Mô tả khối hero bên phải'),
 ('hero_badges', 'Bảo mật tài khoản\nThanh toán linh hoạt', 'Danh sách badge hero (mỗi dòng 1 badge)'),
-('footer_title', 'Sang dev', 'Tiêu đề footer'),
+('footer_title', 'Dat Dev', 'Tiêu đề footer'),
 ('footer_subtitle', 'Nền tảng mua bán mã nguồn uy tín', 'Mô tả footer'),
 ('footer_links_title', 'Liên kết', 'Tiêu đề khối liên kết footer'),
 ('footer_links', 'Trang chủ | /\nBài đăng | /baidang', 'Danh sách liên kết footer (mỗi dòng: text | link)'),
 ('footer_contact_title', 'Liên hệ', 'Tiêu đề liên hệ footer'),
 ('footer_contact_email', 'Email: nguyenhongsang0207@gmail.com', 'Email liên hệ footer'),
-('footer_copyright', '© 2026 Sang dev. All rights reserved.', 'Bản quyền footer'),
+('footer_copyright', '© 2026 Dat Dev. All rights reserved.', 'Bản quyền footer'),
 ('contact_button_text', '', 'Text nút liên hệ ở footer'),
 ('contact_button_link', '', 'Link nút liên hệ ở footer'),
 ('bank_name', '', 'Tên ngân hàng'),
