@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const nodemailer = require('nodemailer');
 
-const APP_NAME = process.env.SITE_NAME || 'Sang dev shop';
+const APP_NAME = process.env.SITE_NAME || 'Dat Dev shop';
 const SMTP_HOST = String(process.env.SMTP_HOST || '').trim();
 const parsedSmtpPort = Number.parseInt(process.env.SMTP_PORT || '0', 10);
 const SMTP_PORT = Number.isFinite(parsedSmtpPort) ? parsedSmtpPort : 0;
